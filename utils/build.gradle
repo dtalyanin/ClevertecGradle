@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'maven-publish'
+    id 'ru.clevertec.report-plugin' version '1.0'
 }
 
 java {
@@ -37,6 +38,7 @@ jar {
 
 test {
     useJUnitPlatform()
+    finalizedBy(reportTask)
 }
 
 publishing {
