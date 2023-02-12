@@ -1,0 +1,17 @@
+plugins {
+    id 'application'
+}
+
+application {
+    mainClass = 'ru.clevertec.App'
+}
+
+dependencies {
+    implementation project(':core')
+}
+
+jar {
+    manifest() {
+        attributes 'Main-Class': 'ru.clevertec.App'
+    }
+}

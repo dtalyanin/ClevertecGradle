@@ -1,0 +1,42 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'maven-publish'
+}
+
+group 'ru.clevertec'
+version '1.0'
+sourceCompatibility = 1.8
+
+gradlePlugin {
+    plugins {
+        reportPlugin {
+            id = 'ru.clevertec.report-plugin'
+            implementationClass = 'ru.clevertec.plugin.ReportPlugin'
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly 'commons-io:commons-io:2.11.0'
+}
+
+jar {
+    from {
+        configurations.compileClasspath
+                .filter{ it.exists() }
+                .filter {it.name.contains("commons-io")}
+                .collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
