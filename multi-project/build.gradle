@@ -1,0 +1,45 @@
+allprojects {
+    apply plugin: 'java'
+
+    group = 'ru.clevertec'
+    version = '0.1.0'
+
+    jar {
+        manifest() {
+            attributes(
+                    'name': project.name,
+                    'version': project.version,
+            )
+        }
+        from {
+            configurations.compileClasspath
+                    .filter{ it.exists() }
+                    .collect { it.isDirectory() ? it : zipTree(it) }
+        }
+    }
+}
+
+subprojects {
+    java {
+        sourceCompatibility = "1.8"
+        targetCompatibility = "1.8"
+    }
+
+    repositories {
+        mavenCentral()
+        mavenLocal() {
+            content {
+                includeGroup("ru.clevertec")
+            }
+        }
+    }
+
+    dependencies {
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+}
